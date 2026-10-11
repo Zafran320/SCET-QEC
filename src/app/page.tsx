@@ -5,6 +5,7 @@ import { BATCH_SIZE, DEPARTMENTS, EMPLOYMENT_STATUSES, EmploymentStatus, QUESTIO
 import { EMPLOYER_QUESTIONS } from "@/lib/employer";
 import { Filters, TABLES, applyFilters, filterQuery, readFilters } from "@/lib/filters";
 import DownloadForm from "@/components/DownloadForm";
+import FilterForm from "@/components/FilterForm";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Admin - SCET Feedback" };
@@ -91,14 +92,14 @@ export default async function AdminPage({ searchParams }: { searchParams: Record
       {searchParams.saved && !employer && <p className="notice success">Changes saved.</p>}
       {error && <p className="error">Could not load data: {error.message}</p>}
 
-      <form method="GET" className="toolbar">
+      <FilterForm>
         <input type="hidden" name="form" value={f.form} />
         <input
           type="text"
           name="q"
           defaultValue={f.q}
           placeholder={employer ? "Search employee, employer, organization, email" : "Search name, reg no, year, email"}
-          style={{ minWidth: 260 }}
+          className="search"
         />
         <select name="department" defaultValue={f.department} style={selectStyle} aria-label="Department">
           <option value="">All departments</option>
@@ -122,7 +123,7 @@ export default async function AdminPage({ searchParams }: { searchParams: Record
         </select>
         <button type="submit" className="secondary">Filter</button>
         <a className="btn secondary" href={`/?form=${f.form}`}>Reset</a>
-      </form>
+      </FilterForm>
 
       <DownloadForm>
         {/* "Download next" uses the same filters as the list */}
